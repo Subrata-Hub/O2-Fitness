@@ -221,5 +221,39 @@ export const Orders: CollectionConfig = {
         description: 'Order notes or special instructions',
       },
     },
+    {
+  name: 'payment',
+  type: 'group',
+  fields: [
+    { name: 'method', type: 'text' }, // card, upi, cod
+    { name: 'status', type: 'select', options: [
+        { label: 'Pending', value: 'pending' },
+        { label: 'Completed', value: 'completed' },
+        { label: 'Failed', value: 'failed' },
+    ]},
   ],
+},
+{
+  name: 'delivery',
+  type: 'group',
+  fields: [
+    { name: 'estimatedDelivery', type: 'date' },
+    { name: 'actualDelivery', type: 'date' },
+    { name: 'carrier', type: 'text' },
+    { name: 'trackingNumber', type: 'text' },
+  ],
+},
+
+{
+  name: 'timeline',
+  type: 'array',
+  fields: [
+    { name: 'status', type: 'text' },
+    { name: 'title', type: 'text' },
+    { name: 'description', type: 'text' },
+    { name: 'timestamp', type: 'date' },
+    { name: 'completed', type: 'checkbox' },
+  ],
+}
+],
 }

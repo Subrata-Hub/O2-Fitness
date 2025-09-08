@@ -77,6 +77,7 @@ export interface Config {
     coupons: Coupon;
     subscribers: Subscriber;
     orders: Order;
+    giftCards: GiftCard;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -93,6 +94,7 @@ export interface Config {
     coupons: CouponsSelect<false> | CouponsSelect<true>;
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
+    giftCards: GiftCardsSelect<false> | GiftCardsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -215,6 +217,14 @@ export interface Product {
    * Original price before discount (optional)
    */
   originalPrice?: number | null;
+  /**
+   * Available stock for this product
+   */
+  stock?: number | null;
+  /**
+   * Enable or disable this product
+   */
+  isActive?: boolean | null;
   /**
    * Check if product is on sale
    */
@@ -827,6 +837,47 @@ export interface Order {
    * Order notes or special instructions
    */
   notes?: string | null;
+  payment?: {
+    method?: string | null;
+    status?: ('pending' | 'completed' | 'failed') | null;
+  };
+  delivery?: {
+    estimatedDelivery?: string | null;
+    actualDelivery?: string | null;
+    carrier?: string | null;
+    trackingNumber?: string | null;
+  };
+  timeline?:
+    | {
+        status?: string | null;
+        title?: string | null;
+        description?: string | null;
+        timestamp?: string | null;
+        completed?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "giftCards".
+ */
+export interface GiftCard {
+  id: string;
+  code: string;
+  balance: number;
+  isActive?: boolean | null;
+  expiresAt?: string | null;
+  transactions?:
+    | {
+        amount: number;
+        type: 'credit' | 'debit';
+        date: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -876,6 +927,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'orders';
         value: string | Order;
+      } | null)
+    | ({
+        relationTo: 'giftCards';
+        value: string | GiftCard;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -977,6 +1032,8 @@ export interface ProductsSelect<T extends boolean = true> {
   reviews?: T;
   price?: T;
   originalPrice?: T;
+  stock?: T;
+  isActive?: T;
   onSale?: T;
   category?: T;
   customCategory?: T;
@@ -1201,6 +1258,50 @@ export interface OrdersSelect<T extends boolean = true> {
         phone?: T;
       };
   notes?: T;
+  payment?:
+    | T
+    | {
+        method?: T;
+        status?: T;
+      };
+  delivery?:
+    | T
+    | {
+        estimatedDelivery?: T;
+        actualDelivery?: T;
+        carrier?: T;
+        trackingNumber?: T;
+      };
+  timeline?:
+    | T
+    | {
+        status?: T;
+        title?: T;
+        description?: T;
+        timestamp?: T;
+        completed?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "giftCards_select".
+ */
+export interface GiftCardsSelect<T extends boolean = true> {
+  code?: T;
+  balance?: T;
+  isActive?: T;
+  expiresAt?: T;
+  transactions?:
+    | T
+    | {
+        amount?: T;
+        type?: T;
+        date?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

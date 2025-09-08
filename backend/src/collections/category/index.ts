@@ -106,14 +106,29 @@ export const Category: CollectionConfig = {
           data.slug = data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
         }
         
+        // if (data.subcategories) {
+        //   data.subcategories = data.subcategories.map(sub => {
+        //     if (sub.name && !sub.slug) {
+        //       sub.slug = sub.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        //     }
+        //     return sub;
+        //   });
+        // }
+
         if (data.subcategories) {
-          data.subcategories = data.subcategories.map(sub => {
-            if (sub.name && !sub.slug) {
-              sub.slug = sub.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-            }
-            return sub;
-          });
-        }
+            data.subcategories = data.subcategories.map(
+              (sub: { name?: string; slug?: string }) => {
+                if (sub.name && !sub.slug) {
+                  sub.slug = sub.name
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/(^-|-$)/g, '')
+                }
+                return sub
+              }
+            )
+          }
+
         
         return data;
       },

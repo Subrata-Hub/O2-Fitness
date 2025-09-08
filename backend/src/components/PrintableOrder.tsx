@@ -1,7 +1,27 @@
 'use client'
 import React from 'react'
 
-const PrintableOrder = ({ doc }) => {
+type OrderItem = {
+  product: string
+  quantity: number
+  price: number
+}
+
+type OrderDoc = {
+  orderNumber: string
+  createdAt?: string
+  status?: 'delivered' | 'pending' | string
+  paymentMethod?: string
+  customerName?: string
+  customerEmail?: string
+  shippingAddress?: string
+  items?: OrderItem[]
+  totalAmount?: number
+  notes?: string
+}
+
+
+const PrintableOrder:React.FC<{ doc: OrderDoc | null }> = ({ doc }) => {
   if (!doc) return <div>Loading...</div>
 
   return (

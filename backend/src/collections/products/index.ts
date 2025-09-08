@@ -138,6 +138,24 @@ export const Products: CollectionConfig = {
       },
     },
     {
+  name: 'stock',
+  type: 'number',
+  min: 0,
+  admin: {
+    description: 'Available stock for this product',
+  },
+},
+{
+  name: 'isActive',
+  type: 'checkbox',
+  defaultValue: true,
+  admin: {
+    description: 'Enable or disable this product',
+  },
+},
+
+
+    {
       name: 'onSale',
       type: 'checkbox',
       defaultValue: false,
