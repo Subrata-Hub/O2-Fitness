@@ -1,36 +1,19 @@
-// import express from 'express'
-// import express from 'express'
-// import payload from 'payload'
-// import { config } from 'dotenv'
-// import cors from 'cors'
 
-// config()
 
-// const app = express()
 
-// // Add CORS middleware before Payload
-// app.use(cors({
-//   origin: '*',
-//   credentials: true
-// }))
+import payload from "payload"
+import config from "./payload.config"
 
-// // Initialize Payload
-// const start = async () => {
-//   await payload.init({
-//     secret: process.env.PAYLOAD_SECRET || 'your-secret-key-here-change-in-production',
-//     express: app,
-//     onInit: () => {
-//       payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
-//     },
-//   })
+const start = async () => {
+  await payload.init({
+    config, // use imported config directly
+    onInit: () => {
+      payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
+    },
+  })
+}
 
-  
+start()
 
-//   const PORT = process.env.PORT || 3001
 
-//   app.listen(PORT, () => {
-//     console.log(`Server is running on port ${PORT}`)
-//   })
-// }
 
-// start()
